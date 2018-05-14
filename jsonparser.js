@@ -48,6 +48,11 @@ class Parser {
 
   }
 
+  static  min_raise(Game){
+    let game = Game;
+    return Game.minimum_raise;
+  }
+
   static pot(Game){
     let game = Game;
     return Game.pot;
