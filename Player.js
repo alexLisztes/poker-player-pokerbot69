@@ -292,5 +292,32 @@ class HandEvaluator {
   };
 }
 
+class Pyker {
+
+  static bet(game){
+    let pyker;
+    for (let i = 0; i < game.players.length; i ++){
+      if (game.players[i].name === "pYker"){
+        pyker = game.players[i];
+      }
+    }
+
+    return pyker.bet;
+  }
+}
+
+class Tormentors {
+
+  static bet(game){
+    let torment;
+    for (let i = 0; i < game.players.length; i ++){
+      if (game.players[i].name === "TorMentors"){
+        torment = game.players[i];
+      }
+    }
+
+    return torment.bet;
+  }
+}
 
 
