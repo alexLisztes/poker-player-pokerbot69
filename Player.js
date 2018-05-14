@@ -279,5 +279,18 @@ class HandEvaluator {
   };
 }
 
+class Pyker {
+
+  static bet(game){
+    let pyker;
+    for (let i = 0; i < game.players.length; i ++){
+      if (game.players[i].name === "pYker"){
+        pyker = game.players[i];
+      }
+    }
+
+    return pyker.bet;
+  }
+}
 
 
