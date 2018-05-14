@@ -160,5 +160,3 @@ class Parser {
     ],
     "community_cards": [ ]
   };
-
-Parser.to_call(data);
