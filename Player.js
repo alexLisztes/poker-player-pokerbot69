@@ -185,6 +185,21 @@ class HandEvaluator {
     return false;
   };
 
+  static isTwoPair(hand) {
+    let numberOfPairs = 0
+    for (let i = 0; i < hand.length - 1; i++) {
+      for (let j = i + 1; j < hand.length; j++) {
+        if ((this.isRankSame(hand[i], hand[j]))) {
+          numberOfPairs++;
+        }
+      }
+    }
+    if (numberOfPairs > 1) {
+      return true;
+    }
+    return false;
+  }
+
   static isThreeOfAKind(hand) {
     for (let i = 0; i < hand.length - 2; i++) {
       for (let j = i + 1; j < hand.length - 1; j++) {
