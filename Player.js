@@ -170,6 +170,119 @@ class StarterHandExaminer {
 }
 
 
+class HandEvaluator {
+
+  static isHighHand(hand) {
+    for (let card of hand) {
+      if (["10", "J", "Q", "K", "A"].includes(card.rank)) return true;
+    }
+    return false;
+  }
+
+  static isPair(hand) {
+    for (let i = 0; i < hand.length - 1; i++) {
+      for (let j = i + 1; j < hand.length; j++) {
+        if (this.isRankSame(hand[i], hand[j])) {
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+
+  static isThreeOfAKind(hand) {
+    for (let i = 0; i < hand.length - 2; i++) {
+      for (let j = i + 1; j < hand.length - 1; j++) {
+        for (let k = j + 1; k < hand.length; k++) {
+          if (this.isRankSameMultiple(hand[i], hand[j], hand[k])) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  };
+
+  static isStraight(hand) {
+    // let count = 0;
+    // for (let i = 0; i < hand.length; i++) {
+    //   count = 0;
+    //   let nextValue = hand[i].suit;
+    //   for (let j = 0; j < hand.length; j++) {
+    //     if (i !== j) {
+    //       if (hand[j].rank === nextValue) {
+    //         count++;
+    //         switch (hand[j].rank) {
+    //           case "10":
+    //             nextValue = "J";
+    //             break;
+    //           case "J":
+    //             nextValue = "Q";
+    //             break;
+    //           case "Q":
+    //             nextValue = "K";
+    //             break;
+    //           case "K":
+    //             nextValue = "A";
+    //             break;
+    //           case "A":
+    //             nextValue = null;
+    //             break;
+    //           default:
+    //             nextValue++;
+    //         }
+    //       }
+    //     }
+    //   }
+    //   if (count >= 5) return true;
+    // }
+    return false;
+  }
+
+  static isFlush(hand) {
+    let i = 0;
+    while (i < hand.length) {
+      let count = 0;
+      let currentCardToCompareWith = hand[i];
+      for (let j = 0; j < hand.length; j++) {
+        if (this.isColorSame(currentCardToCompareWith, hand[j])) {
+          count++;
+        }
+      }
+      if (count === 5) return true;
+      i++;
+    }
+    return false;
+  }
+
+  static isColorSame(card1, card2) {
+    return card1.suit === card2.suit;
+  };
+
+  static isColorSameMultiple(...cards) {
+    let same = true;
+    let i = 1;
+    while (i < cards.length && same) {
+      same = cards[i].suit === cards[i-1].suit;
+      i++;
+    }
+    return same;
+  }
+
+  static isRankSameMultiple(...cards) {
+    let same = true;
+    let i = 1;
+    while (i < cards.length && same) {
+      same = cards[i].rank === cards[i-1].rank;
+      i++;
+    }
+    return same;
+  }
+
+  static isRankSame(card1, card2) {
+    return card1.rank === card2.rank;
+  };
+}
 
 
 
