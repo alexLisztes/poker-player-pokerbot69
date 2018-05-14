@@ -25,22 +25,25 @@ class StarterHandExaminer {
     return value;
   }
 
+  static getNumberOfHighValueCards(){
+    let numberOfHighValueCards = 0;
+    let highRanks = ["10", "J", "Q", "K", "A"];
+    for (let i = 0; i < 2; i++) {
+      if (highRanks.includes(cards[i].rank)) {
+        numberOfHighValueCards++;
+      }
+    }
+    return numberOfHighValueCards;
+  }
+
+  static isThereHighPairInHand(){
+    return StarterHandExaminer.isPairInHand() && StarterHandExaminer.getValueOfStarterHand() >= 20;
+  }
+
   static isPairInHand(){
     return cards[0].rank === cards[1].rank;
   }
 }
-
-function defineFirstBet(){
-  let highValue = 20;
-  if (StarterHandExaminer.isPairInHand() && StarterHandExaminer.getValueOfStarterHand() > highValue){
-    //High bet
-  } else if (StarterHandExaminer.isPairInHand() || StarterHandExaminer.getValueOfStarterHand() > highValue) {
-    //Medium bet
-  } else {
-    //Small bet
-  }
-}
-
 
   let cards = Parser.startinghand();
   let charSuits = ["J", "Q", "K", "A"];
