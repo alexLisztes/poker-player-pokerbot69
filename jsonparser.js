@@ -1,5 +1,11 @@
 class Parser {
 
+  static fullhand(Game){
+    console.log(this.startinghand(Game).concat(this.communitycards(Game)));
+    return this.startinghand(Game).concat(this.communitycards(Game));
+
+  }
+
   static communitycards(Game){
     let game = Game;
 
@@ -13,16 +19,15 @@ class Parser {
       rank = game.community_cards[i].rank;
 
       var c = new card(suit, rank);
-      console.log(c);
       cards.push(c);
 
     }
 
+    return cards;
   }
 
 
   static startinghand(Game) {
-    console.log(Game);
     let game = Game;
 
     let suit;
@@ -35,11 +40,9 @@ class Parser {
       rank = game.players[game.in_action].hole_cards[i].rank;
 
       var c = new card(suit, rank);
-      console.log(c);
       hand.push(c);
 
     }
-    console.log(hand);
     return hand
 
 
@@ -148,4 +151,4 @@ class Parser {
   Parser
 .
 
-  communitycards(data);
+  fullhand(data);
