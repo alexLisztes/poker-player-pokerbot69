@@ -10,7 +10,7 @@ class Player {
 
     if (StarterHandExaminer.isThereHighPairInHand(hand)) {
       bet(Math.max(100, Parser.min_raise(gameState)));
-    } else if (StarterHandExaminer.getNumberOfHighValueCards(hand)) {
+    } else if (StarterHandExaminer.getNumberOfHighValueCards(hand) > 1) {
       bet(Math.max(50, Parser.min_raise(gameState)));
     } else {
       bet(0);
