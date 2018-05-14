@@ -47,6 +47,18 @@ class Parser {
 
 
   }
+
+  static blinds(Game){
+    let game = Game;
+
+    let small_blind = game.small_blind;
+    let big_blind = small_blind * 2;
+    let blinds = [];
+    blinds.push(small_blind);
+    blinds.push(big_blind);
+    console.log(blinds);
+    return blinds;
+  }
 }
 
   function card(suit, rank) {
@@ -132,18 +144,7 @@ class Parser {
         "bet": 0
       }
     ],
-    "community_cards": [                            // Finally the array of community cards.
-      {
-        "rank": "4",
-        "suit": "spades"
-      },
-      {
-        "rank": "A",
-        "suit": "hearts"
-      },
-      {
-        "rank": "6",
-        "suit": "clubs"
-      }
-    ]
+    "community_cards": [ ]
   };
+
+Parser.blinds(data);
