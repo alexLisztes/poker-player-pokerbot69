@@ -32,7 +32,8 @@ class Player {
     } else {
       if (HandEvaluator.isThreeOfAKind(cards) ||
           HandEvaluator.isFlush(cards) ||
-          StarterHandExaminer.isThereHighPairInHand(hand)) {
+          StarterHandExaminer.isThereHighPairInHand(hand) ||
+          HandEvaluator.isTwoPair(cards)) {
         bet(Math.max(Parser.pot(gameState), Parser.min_raise(gameState)));
       } else {
         bet(0);
