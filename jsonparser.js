@@ -47,32 +47,6 @@ class Parser {
 
 
   }
-
-  static  min_raise(Game){
-    let game = Game;
-    return Game.minimum_raise;
-  }
-
-  static pot(Game){
-    let game = Game;
-    return Game.pot;
-  }
-
-  static to_call(Game){
-    let game = Game;
-    return Game.current_buy_in;
-  }
-
-  static blinds(Game){
-    let game = Game;
-
-    let small_blind = game.small_blind;
-    let big_blind = small_blind * 2;
-    let blinds = [];
-    blinds.push(small_blind);
-    blinds.push(big_blind);
-    return blinds;
-  }
 }
 
   function card(suit, rank) {
@@ -158,5 +132,18 @@ class Parser {
         "bet": 0
       }
     ],
-    "community_cards": [ ]
+    "community_cards": [                            // Finally the array of community cards.
+      {
+        "rank": "4",
+        "suit": "spades"
+      },
+      {
+        "rank": "A",
+        "suit": "hearts"
+      },
+      {
+        "rank": "6",
+        "suit": "clubs"
+      }
+    ]
   };
