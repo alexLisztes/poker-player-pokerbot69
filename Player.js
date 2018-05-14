@@ -11,7 +11,7 @@ class Player {
     } else if (HandEvaluator.isPair(cards)) {
       bet(100);
     } else {
-      bet(0);
+      bet(Parser.to_call(gameState));
     }
   }
 
