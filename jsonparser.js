@@ -147,8 +147,3 @@ class Parser {
       }
     ]
   };
-
-  Parser
-.
-
-  fullhand(data);
