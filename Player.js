@@ -8,13 +8,37 @@ class Player {
     let hand = Parser.startinghand(gameState);
     let cards = Parser.fullhand(gameState);
 
-    if (StarterHandExaminer.isThereHighPairInHand(hand)) {
-      bet(Math.max(100, Parser.min_raise(gameState)));
-    } else if (StarterHandExaminer.getNumberOfHighValueCards(hand) > 1) {
-      bet(Math.max(50, Parser.min_raise(gameState)));
+    if (Parser.communitycards(gameState).length === 0) {
+
+      if (Tormentors.bet(gameState) > Parser.blinds(gameState)[1]) {
+        if (StarterHandExaminer.isThereHighPairInHand(hand)) {
+          bet(Math.max(Parser.pot(gameState), Parser.min_raise(gameState)));
+        } else {
+          bet(0);
+        }
+      }
+
+      if (StarterHandExaminer.isThereHighPairInHand(hand)) {
+        bet(Math.max(Parser.pot(gameState), Parser.min_raise(gameState)));
+      } else if (StarterHandExaminer.getNumberOfHighValueCards(hand) > 1) {
+        bet(Math.max(Parser.pot(gameState), Parser.min_raise(gameState)));
+      } else if (StarterHandExaminer.getNumberOfHighValueCards(hand) > 0 &&
+        HandEvaluator.isColorSame(hand[0], hand[1]) &&
+        Math.abs([0] - hand[1]) < 2){
+        bet(Math.max(Parser.pot(gameState), Parser.min_raise(gameState)));
+      } else {
+        bet(0);
+      }
     } else {
-      bet(0);
-     }
+      if (HandEvaluator.isThreeOfAKind(cards) ||
+          HandEvaluator.isFlush(cards) ||
+          StarterHandExaminer.isThereHighPairInHand(hand)) {
+        bet(Math.max(Parser.pot(gameState), Parser.min_raise(gameState)));
+      } else {
+        bet(0);
+      }
+    }
+
   }
 
   static showdown(gameState) {
@@ -294,5 +318,32 @@ class HandEvaluator {
   };
 }
 
+class Pyker {
+
+  static bet(game){
+    let pyker;
+    for (let i = 0; i < game.players.length; i ++){
+      if (game.players[i].name === "pYker"){
+        pyker = game.players[i];
+      }
+    }
+
+    return pyker.bet;
+  }
+}
+
+class Tormentors {
+
+  static bet(game){
+    let torment;
+    for (let i = 0; i < game.players.length; i ++){
+      if (game.players[i].name === "TorMentors"){
+        torment = game.players[i];
+      }
+    }
+
+    return torment.bet;
+  }
+}
 
 
