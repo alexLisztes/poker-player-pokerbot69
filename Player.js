@@ -4,11 +4,14 @@ class Player {
   }
 
   static betRequest(gameState, bet) {
-    if (Math.random() > 0.5){
-      bet(0);
-    }
-    else {
+    let cards = Parser.fullhand(gameState);
+
+    if (HandEvaluator.isThreeOfAKind(cards)){
       bet(1000);
+    } else if (HandEvaluator.isPair(cards)) {
+      bet(100);
+    } else {
+      bet(0);
     }
   }
 
