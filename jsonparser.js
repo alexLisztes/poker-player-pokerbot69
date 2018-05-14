@@ -48,10 +48,14 @@ class Parser {
 
   }
 
+  static pot(Game){
+    let game = Game;
+    return Game.pot;
+  }
+
   static to_call(Game){
     let game = Game;
-    let largestbet = Game.current_buy_in;
-    return largestbet;
+    return Game.current_buy_in;
   }
 
   static blinds(Game){
