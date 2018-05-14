@@ -6,13 +6,13 @@ class Player {
   static betRequest(gameState, bet) {
     let cards = Parser.fullhand(gameState);
 
-    if (HandEvaluator.isThreeOfAKind(cards)){
-      bet(100);
-     } else if (HandEvaluator.isPair(cards)) {
-      bet(50);
-     } else {
-       bet(Parser.to_call(gameState));
-     }
+    if (HandEvaluator.isThreeOfAKind(cards)) {
+      bet(Math.max(100, Parser.min_raise(gameState)));
+    } else if (HandEvaluator.isPair(cards)) {
+      bet(Math.max(50, Parser.min_raise(gameState)));
+    } else {
+      bet(Parser.to_call(gameState));
+    }
   }
 
   static showdown(gameState) {
@@ -23,13 +23,13 @@ module.exports = Player;
 
 class Parser {
 
-  static fullhand(Game){
+  static fullhand(Game) {
     console.log(this.startinghand(Game).concat(this.communitycards(Game)));
     return this.startinghand(Game).concat(this.communitycards(Game));
 
   }
 
-  static communitycards(Game){
+  static communitycards(Game) {
     let game = Game;
 
     let suit;
@@ -71,22 +71,22 @@ class Parser {
 
   }
 
-  static  min_raise(Game){
+  static min_raise(Game) {
     let game = Game;
     return Game.minimum_raise;
   }
 
-  static pot(Game){
+  static pot(Game) {
     let game = Game;
     return Game.pot;
   }
 
-  static to_call(Game){
+  static to_call(Game) {
     let game = Game;
     return Game.current_buy_in;
   }
 
-  static blinds(Game){
+  static blinds(Game) {
     let game = Game;
 
     let small_blind = game.small_blind;
@@ -181,7 +181,7 @@ data = {
       "bet": 0
     }
   ],
-  "community_cards": [ ]
+  "community_cards": []
 };
 
 Parser.to_call(data);
@@ -190,8 +190,8 @@ Parser.to_call(data);
 class HandEvaluator {
 
   static isPair(hand) {
-    for(let i = 0; i < hand.length-1; i++) {
-      for(let j = i+1; j < hand.length; j++) {
+    for (let i = 0; i < hand.length - 1; i++) {
+      for (let j = i + 1; j < hand.length; j++) {
         if (this.isRankSame(hand[i], hand[j])) {
           return true;
         }
@@ -201,10 +201,10 @@ class HandEvaluator {
   };
 
   static isThreeOfAKind(hand) {
-    for (let i = 0; i < hand.length-2; i++) {
-      for (let j = i+1; j < hand.length-1; j++) {
-        for (let k = j+1; k < hand.length; k++) {
-          if (this.isRankSameMultiple(hand[i], hand[j], hand[k])){
+    for (let i = 0; i < hand.length - 2; i++) {
+      for (let j = i + 1; j < hand.length - 1; j++) {
+        for (let k = j + 1; k < hand.length; k++) {
+          if (this.isRankSameMultiple(hand[i], hand[j], hand[k])) {
             return true;
           }
         }
@@ -212,9 +212,6 @@ class HandEvaluator {
     }
     return false;
   };
-
-
-
 
 
   static isColorSame(card1, card2) {
@@ -225,7 +222,7 @@ class HandEvaluator {
     let same = true;
     let i = 1;
     while (i < cards.length && same) {
-      same = cards[i].suit === cards[i-1].suit;
+      same = cards[i].suit === cards[i - 1].suit;
       i++;
     }
     return same;
@@ -235,7 +232,7 @@ class HandEvaluator {
     let same = true;
     let i = 1;
     while (i < cards.length && same) {
-      same = cards[i].rank === cards[i-1].rank;
+      same = cards[i].rank === cards[i - 1].rank;
       i++;
     }
     return same;
