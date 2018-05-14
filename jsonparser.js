@@ -1,9 +1,29 @@
 class Parser {
 
+  static communitycards(Game){
+    let game = Game;
+
+    let suit;
+    let rank;
+    let cards = [];
+
+    for (let i = 0; i < game.community_cards.length; i++) {
+
+      suit = game.community_cards[i].suit;
+      rank = game.community_cards[i].rank;
+
+      var c = new card(suit, rank);
+      console.log(c);
+      cards.push(c);
+
+    }
+
+  }
+
 
   static startinghand(Game) {
-    console.log(data);
-    let game = data;
+    console.log(Game);
+    let game = Game;
 
     let suit;
     let rank;
@@ -128,4 +148,4 @@ class Parser {
   Parser
 .
 
-  startinghand(data);
+  communitycards(data);
