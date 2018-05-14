@@ -10,7 +10,11 @@ class Player {
 
     if (Parser.headsup(gameState)){
       if (Tormentors.status(gameState) === "active"){
-        bet(10000);
+        if (StarterHandExaminer.getNumberOfHighValueCards(hand) > 1 || StarterHandExaminer.isPairInHand(hand)) {
+          bet(10000);
+        } else {
+          bet(0);
+        }
       }
     }
 
