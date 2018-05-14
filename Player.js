@@ -7,9 +7,9 @@ class Player {
     let cards = Parser.fullhand(gameState);
 
     if (HandEvaluator.isThreeOfAKind(cards)){
-      bet(300);
-     } else if (HandEvaluator.isPair(cards)) {
       bet(100);
+     } else if (HandEvaluator.isPair(cards)) {
+      bet(50);
      } else {
        bet(Parser.to_call(gameState));
      }
