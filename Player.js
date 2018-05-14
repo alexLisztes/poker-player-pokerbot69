@@ -7,14 +7,14 @@ class Player {
 
     let hand = Parser.startinghand(gameState);
     let cards = Parser.fullhand(gameState);
-
+/*
     if (StarterHandExaminer.isThereHighPairInHand(hand)) {
       bet(Math.max(100, Parser.min_raise(gameState)));
     } else if (StarterHandExaminer.getNumberOfHighValueCards(hand)) {
       bet(Math.max(50, Parser.min_raise(gameState)));
-    } else {
+    } else {*/
       bet(0);
-    }
+    // }
   }
 
   static showdown(gameState) {
