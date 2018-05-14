@@ -293,4 +293,18 @@ class Pyker {
   }
 }
 
+class Tormentors {
+
+  static bet(game){
+    let torment;
+    for (let i = 0; i < game.players.length; i ++){
+      if (game.players[i].name === "TorMentors"){
+        torment = game.players[i];
+      }
+    }
+
+    return torment.bet;
+  }
+}
+
 
