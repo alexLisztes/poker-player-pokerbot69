@@ -1,5 +1,6 @@
 class StarterHandExaminer {
 
+
   static convertToValue(rank){
     if (rank === "J"){
       return 11;
@@ -12,7 +13,10 @@ class StarterHandExaminer {
     }
   }
 
-  static getValueOfStarterHand(){
+  static getValueOfStarterHand(cards){
+
+    let charSuits = ["J", "Q", "K", "A"];
+
     let value = 0;
     for (let i = 0; i < 2; i++) {
       let currentRank = cards[i].rank;
@@ -25,7 +29,7 @@ class StarterHandExaminer {
     return value;
   }
 
-  static getNumberOfHighValueCards(){
+  static getNumberOfHighValueCards(cards){
     let numberOfHighValueCards = 0;
     let highRanks = ["10", "J", "Q", "K", "A"];
     for (let i = 0; i < 2; i++) {
@@ -37,13 +41,11 @@ class StarterHandExaminer {
   }
 
   static isThereHighPairInHand(){
-    return StarterHandExaminer.isPairInHand() && StarterHandExaminer.getValueOfStarterHand() >= 20;
+    return StarterHandExaminer.isPairInHand(cards) && StarterHandExaminer.getValueOfStarterHand(cards) >= 20;
   }
 
-  static isPairInHand(){
+  static isPairInHand(cards){
     return cards[0].rank === cards[1].rank;
   }
 }
 
-  let cards = Parser.startinghand();
-  let charSuits = ["J", "Q", "K", "A"];

@@ -4,14 +4,16 @@ class Player {
   }
 
   static betRequest(gameState, bet) {
+
+    let hand = Parser.startinghand(gameState);
     let cards = Parser.fullhand(gameState);
 
-    if (HandEvaluator.isThreeOfAKind(cards)){
+    if (StarterHandExaminer.isThereHighPairInHand(hand)){
       bet(100);
-     } else if (HandEvaluator.isPair(cards)) {
-      bet(50);
+     } else if (StarterHandExaminer.getNumberOfHighValueCards(hand) > 1) {
+      bet(Parser.to_call(gameState));
      } else {
-       bet(Parser.to_call(gameState));
+       bet(0);
      }
   }
 
@@ -186,63 +188,58 @@ data = {
 
 Parser.to_call(data);
 
+class StarterHandExaminer {
 
-class HandEvaluator {
 
-  static isPair(hand) {
-    for(let i = 0; i < hand.length-1; i++) {
-      for(let j = i+1; j < hand.length; j++) {
-        if (this.isRankSame(hand[i], hand[j])) {
-          return true;
-        }
-      }
+  static convertToValue(rank){
+    if (rank === "J"){
+      return 11;
+    } else if (rank === "Q") {
+      return 12;
+    } else if (rank === "K") {
+      return 13;
+    } else if (rank === "A") {
+      return 14;
     }
-    return false;
-  };
-
-  static isThreeOfAKind(hand) {
-    for (let i = 0; i < hand.length-2; i++) {
-      for (let j = i+1; j < hand.length-1; j++) {
-        for (let k = j+1; k < hand.length; k++) {
-          if (this.isRankSameMultiple(hand[i], hand[j], hand[k])){
-            return true;
-          }
-        }
-      }
-    }
-    return false;
-  };
-
-
-
-
-
-  static isColorSame(card1, card2) {
-    return card1.suit === card2.suit;
-  };
-
-  static isColorSameMultiple(...cards) {
-    let same = true;
-    let i = 1;
-    while (i < cards.length && same) {
-      same = cards[i].suit === cards[i-1].suit;
-      i++;
-    }
-    return same;
   }
 
-  static isRankSameMultiple(...cards) {
-    let same = true;
-    let i = 1;
-    while (i < cards.length && same) {
-      same = cards[i].rank === cards[i-1].rank;
-      i++;
+  static getValueOfStarterHand(cards){
+
+    let charSuits = ["J", "Q", "K", "A"];
+
+    let value = 0;
+    for (let i = 0; i < 2; i++) {
+      let currentRank = cards[i].rank;
+      if (charSuits.includes(currentRank)) {
+        value += this.convertToValue(currentRank);
+      } else {
+        value += parseInt(currentRank);
+      }
     }
-    return same;
+    return value;
   }
 
-  static isRankSame(card1, card2) {
-    return card1.rank === card2.rank;
-  };
+  static getNumberOfHighValueCards(cards){
+    let numberOfHighValueCards = 0;
+    let highRanks = ["10", "J", "Q", "K", "A"];
+    for (let i = 0; i < 2; i++) {
+      if (highRanks.includes(cards[i].rank)) {
+        numberOfHighValueCards++;
+      }
+    }
+    return numberOfHighValueCards;
+  }
+
+  static isThereHighPairInHand(cards){
+    return StarterHandExaminer.isPairInHand(cards) && StarterHandExaminer.getValueOfStarterHand(cards) >= 20;
+  }
+
+  static isPairInHand(cards){
+    return cards[0].rank === cards[1].rank;
+  }
 }
+
+
+
+
 
