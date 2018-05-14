@@ -8,13 +8,18 @@ class Player {
     let hand = Parser.startinghand(gameState);
     let cards = Parser.fullhand(gameState);
 
-    if (StarterHandExaminer.isThereHighPairInHand(hand)) {
-      bet(Math.max(100, Parser.min_raise(gameState)));
-    } else if (StarterHandExaminer.getNumberOfHighValueCards(hand) > 1) {
-      bet(Math.max(50, Parser.min_raise(gameState)));
+    if (Parser.communitycards(gameState).length === 0) {
+      if (StarterHandExaminer.isThereHighPairInHand(hand)) {
+        bet(Math.max(Parser.pot(gameState), Parser.min_raise(gameState)));
+      } else if (StarterHandExaminer.getNumberOfHighValueCards(hand) > 1) {
+        bet(Math.max(Parser.pot(gameState), Parser.min_raise(gameState)));
+      } else {
+        bet(0);
+      }
     } else {
-      bet(0);
-     }
+
+    }
+
   }
 
   static showdown(gameState) {
