@@ -13,11 +13,19 @@ class Player {
         bet(Math.max(Parser.pot(gameState), Parser.min_raise(gameState)));
       } else if (StarterHandExaminer.getNumberOfHighValueCards(hand) > 1) {
         bet(Math.max(Parser.pot(gameState), Parser.min_raise(gameState)));
+      } else if (StarterHandExaminer.getNumberOfHighValueCards(hand) > 0 &&
+        HandEvaluator.isColorSame(hand[0], hand[1]) &&
+        Math.abs([0] - hand[1]) < 2){
+        bet(Math.max(Parser.pot(gameState), Parser.min_raise(gameState)));
       } else {
         bet(0);
       }
     } else {
-
+      if (HandEvaluator.isThreeOfAKind(cards) || HandEvaluator.isFlush(cards)) {
+        bet(Math.max(Parser.pot(gameState), Parser.min_raise(gameState)));
+      } else {
+        bet(0);
+      }
     }
 
   }
