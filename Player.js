@@ -9,6 +9,15 @@ class Player {
     let cards = Parser.fullhand(gameState);
 
     if (Parser.communitycards(gameState).length === 0) {
+
+      if (Tormentors.bet(gameState) > Parser.blinds(gameState)[1]) {
+        if (StarterHandExaminer.isThereHighPairInHand(hand)) {
+          bet(Math.max(Parser.pot(gameState), Parser.min_raise(gameState)));
+        } else {
+          bet(0);
+        }
+      }
+
       if (StarterHandExaminer.isThereHighPairInHand(hand)) {
         bet(Math.max(Parser.pot(gameState), Parser.min_raise(gameState)));
       } else if (StarterHandExaminer.getNumberOfHighValueCards(hand) > 1) {
@@ -21,7 +30,9 @@ class Player {
         bet(0);
       }
     } else {
-      if (HandEvaluator.isThreeOfAKind(cards) || HandEvaluator.isFlush(cards)) {
+      if (HandEvaluator.isThreeOfAKind(cards) ||
+          HandEvaluator.isFlush(cards) ||
+          StarterHandExaminer.isThereHighPairInHand(hand)) {
         bet(Math.max(Parser.pot(gameState), Parser.min_raise(gameState)));
       } else {
         bet(0);
