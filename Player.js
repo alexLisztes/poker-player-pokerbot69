@@ -8,13 +8,38 @@ class Player {
     let hand = Parser.startinghand(gameState);
     let cards = Parser.fullhand(gameState);
 
-    if (StarterHandExaminer.isThereHighPairInHand(hand)) {
-      bet(Math.max(100, Parser.min_raise(gameState)));
-    } else if (StarterHandExaminer.getNumberOfHighValueCards(hand) > 1) {
-      bet(Math.max(50, Parser.min_raise(gameState)));
+    if (Parser.communitycards(gameState).length === 0) {
+
+      if (Tormentors.bet(gameState) > Parser.blinds(gameState)[1]) {
+        if (StarterHandExaminer.isThereHighPairInHand(hand)) {
+          bet(Math.max(Parser.pot(gameState), Parser.min_raise(gameState)));
+        } else {
+          bet(0);
+        }
+      }
+
+      if (StarterHandExaminer.isThereHighPairInHand(hand)) {
+        bet(Math.max(Parser.pot(gameState), Parser.min_raise(gameState)));
+      } else if (StarterHandExaminer.getNumberOfHighValueCards(hand) > 1) {
+        bet(Math.max(Parser.pot(gameState), Parser.min_raise(gameState)));
+      } else if (StarterHandExaminer.getNumberOfHighValueCards(hand) > 0 &&
+        HandEvaluator.isColorSame(hand[0], hand[1]) &&
+        Math.abs([0] - hand[1]) < 2){
+        bet(Math.max(Parser.pot(gameState), Parser.min_raise(gameState)));
+      } else {
+        bet(0);
+      }
     } else {
-      bet(0);
-     }
+      if (HandEvaluator.isThreeOfAKind(cards) ||
+          HandEvaluator.isFlush(cards) ||
+          StarterHandExaminer.isThereHighPairInHand(hand) ||
+          HandEvaluator.isTwoPair(cards)) {
+        bet(Math.max(Parser.pot(gameState), Parser.min_raise(gameState)));
+      } else {
+        bet(0);
+      }
+    }
+
   }
 
   static showdown(gameState) {
@@ -185,6 +210,21 @@ class HandEvaluator {
     }
     return false;
   };
+
+  static isTwoPair(hand) {
+    let numberOfPairs = 0
+    for (let i = 0; i < hand.length - 1; i++) {
+      for (let j = i + 1; j < hand.length; j++) {
+        if ((this.isRankSame(hand[i], hand[j]))) {
+          numberOfPairs++;
+        }
+      }
+    }
+    if (numberOfPairs > 1) {
+      return true;
+    }
+    return false;
+  }
 
   static isThreeOfAKind(hand) {
     for (let i = 0; i < hand.length - 2; i++) {
