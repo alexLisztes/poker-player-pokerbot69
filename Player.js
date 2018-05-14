@@ -4,12 +4,9 @@ class Player {
   }
 
   static betRequest(gameState, bet) {
-    if (Math.random() > 0.5){
-      bet(500);
-    }
-    else {
-      bet(1000);
-    }
+
+    bet(1000);
+
   }
 
   static showdown(gameState) {
