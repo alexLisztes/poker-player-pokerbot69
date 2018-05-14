@@ -11,7 +11,7 @@ class Player {
     if (Parser.headsup(gameState)){
       if (Tormentors.status(gameState) === "active"){
         if (StarterHandExaminer.getNumberOfHighValueCards(hand) > 1 || StarterHandExaminer.isPairInHand(hand)) {
-          bet(10000);
+          bet(Parser.to_call(gameState));
         } else {
           bet(0);
         }
