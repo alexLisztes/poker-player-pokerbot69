@@ -38,7 +38,8 @@ class Player {
     } else {
       if (HandEvaluator.isThreeOfAKind(cards) ||
           HandEvaluator.isFlush(cards) ||
-          StarterHandExaminer.isThereHighPairInHand(hand)) {
+          StarterHandExaminer.isThereHighPairInHand(hand) ||
+          HandEvaluator.isTwoPair(cards)) {
         bet(Math.max(Parser.pot(gameState), Parser.min_raise(gameState)));
       } else {
         bet(0);
@@ -208,6 +209,7 @@ class StarterHandExaminer {
   }
 }
 
+//////////////////////////////////////////////////////////
 
 class HandEvaluator {
 
@@ -257,39 +259,47 @@ class HandEvaluator {
     return false;
   };
 
-  static isStraight(hand) {
-    // let count = 0;
-    // for (let i = 0; i < hand.length; i++) {
-    //   count = 0;
-    //   let nextValue = hand[i].suit;
-    //   for (let j = 0; j < hand.length; j++) {
-    //     if (i !== j) {
-    //       if (hand[j].rank === nextValue) {
-    //         count++;
-    //         switch (hand[j].rank) {
-    //           case "10":
-    //             nextValue = "J";
-    //             break;
-    //           case "J":
-    //             nextValue = "Q";
-    //             break;
-    //           case "Q":
-    //             nextValue = "K";
-    //             break;
-    //           case "K":
-    //             nextValue = "A";
-    //             break;
-    //           case "A":
-    //             nextValue = null;
-    //             break;
-    //           default:
-    //             nextValue++;
-    //         }
-    //       }
-    //     }
-    //   }
-    //   if (count >= 5) return true;
-    // }
+    static isStraight(hand) {
+
+    let nextRank = this.smallestCard(hand).rank;
+    let count = 0;
+    let ranks = new Array();
+    for (let card of hand) {
+      ranks.push(card.rank);
+    }
+
+    let i = 0;
+    while(i < hand.length) {
+      if(ranks.includes(nextRank)) {
+        count++;
+        switch (nextRank) {
+          case "10":
+            nextRank = "J";
+            break;
+          case "J":
+            nextRank = "Q";
+            break;
+          case "Q":
+            nextRank = "K";
+            break;
+          case "K":
+            nextRank = "A";
+            break;
+          case "A":
+            nextRank = "2";
+            break;
+          default:
+            nextRank = (parseInt(nextRank) + 1);
+            nextRank = nextRank.toString();
+            break;
+        }
+      } else {
+        return false;
+      }
+      i++;
+      if (count >= 5) return true;
+    }
+
     return false;
   }
 
