@@ -8,6 +8,12 @@ class Player {
     let hand = Parser.startinghand(gameState);
     let cards = Parser.fullhand(gameState);
 
+    if (Parser.headsup(gameState)){
+      if (Tormentors.status(gameState) === "active"){
+        bet(10000);
+      }
+    }
+
     if (Parser.communitycards(gameState).length === 0) {
 
       if (Tormentors.bet(gameState) > Parser.blinds(gameState)[1]) {
@@ -53,6 +59,20 @@ module.exports = Player;
 
 
 class Parser {
+
+  static headsup(game){
+    let counter = 0;
+    for (let i = 0; i < game.players.length; i ++){
+      if (game.players[i].status === "out"){
+        counter ++;
+      }
+    }
+    if (counter === 4){
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   static fullhand(Game){
     console.log(this.startinghand(Game).concat(this.communitycards(Game)));
@@ -333,6 +353,17 @@ class Pyker {
 }
 
 class Tormentors {
+
+  static status(game){
+    let torment;
+    for (let i = 0; i < game.players.length; i ++){
+      if (game.players[i].name === "TorMentors"){
+        torment = game.players[i];
+      }
+    }
+
+    return torment.status;
+  }
 
   static bet(game){
     let torment;
