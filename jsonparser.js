@@ -48,6 +48,12 @@ class Parser {
 
   }
 
+  static to_call(Game){
+    let game = Game;
+    let largestbet = Game.current_buy_in;
+    return largestbet;
+  }
+
   static blinds(Game){
     let game = Game;
 
@@ -56,7 +62,6 @@ class Parser {
     let blinds = [];
     blinds.push(small_blind);
     blinds.push(big_blind);
-    console.log(blinds);
     return blinds;
   }
 }
@@ -147,4 +152,4 @@ class Parser {
     "community_cards": [ ]
   };
 
-Parser.blinds(data);
+Parser.to_call(data);
